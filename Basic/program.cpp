@@ -94,12 +94,36 @@ void Program::print() {
 void Program::RunProgram(EvalState &state) {
 	map<int, Statement*>::iterator it=Stmt.begin();
     now = getFirstLineNumber();
-	for (int i = 0; now != -1&&it->second->getType()!=END; i++) {
+	/*for (int i = 0; now != -1&&it->second->getType()!=END; i++) {
 		it = Stmt.find(now);
 		if (it != Stmt.end()) { now = getNextLineNumber(now); if (it->second->getType() == REM) continue;else it->second->execute(state); }
 		else {
-			if (it++ == Stmt.end()) return;
+			it++;
+			if (it == Stmt.end()) return;
 			else error("LINE NUMBER ERROR");
+		}
+	}*/
+	for (int i = 0;now != -1; i++) {
+		it = Stmt.find(now);
+		if (it->second->getType() == GOTO) { it->second->execute(state); it = Stmt.find(now); if (it == Stmt.end()) error("LINE NUMBER ERROR"); }
+		if (it->second->getType() == IF) { 
+			auto it1 = (If*)(it->second); 
+			if (it1->trueIf(state)) {
+				int now1 = now;
+				it1->execute(state);
+				it = Stmt.find(now);
+				if (it == Stmt.end())
+					now = getNextLineNumber(now1);
+			}
+			else now = getNextLineNumber(now);
+		}
+		if (it->second->getType() == END) return;
+		if (it->second->getType() != GOTO &&
+			it->second->getType() != IF &&
+			it->second->getType() != END) {
+			now = getNextLineNumber(now);
+			if (it->second->getType() == REM) continue;
+			else it->second->execute(state);
 		}
 	}
 }

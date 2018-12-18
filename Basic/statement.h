@@ -139,6 +139,7 @@ public :
 	~If() {};
 	virtual void execute(EvalState & state);
 	virtual StatementType getType();
+	bool trueIf(EvalState & state);
 
 private :
 	string line;

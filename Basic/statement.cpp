@@ -25,12 +25,6 @@ Statement::~Statement() {
    /* Empty */
 }
 
-/*bool trueCondition(Expression* condition, EvalState & state) {
-	if (condition->eval(state)) return true;
-	return false;
-}*/
-
-
 void Let::execute(EvalState & state) {
 	state.setValue(var, exp->eval(state));
 }
@@ -40,23 +34,6 @@ void Print::execute(EvalState & state) {
 }
 
 void Input::execute(EvalState & state) {
-	/*bool is_ok;
-	while (1) {
-		try {
-			is_ok =true;
-			cout << " ? ";
-			string str;
-			getline(cin, str);
-                int val = stringToInteger(str);
-				state.setValue(var, val);
-		}
-		catch (...) {
-			is_ok = false; cout << "INVALID NUMBER" << endl;
-		}
-		if (is_ok) {
-			break;
-		}
-	}*/
 	string str;
 	TokenScanner scanner;
 	scanner.ignoreWhitespace();
@@ -85,8 +62,12 @@ void Input::execute(EvalState & state) {
 	}
 }
 
+bool If::trueIf( EvalState & state) {
+	return condition->eval(state)==1;
+}
+
 void If::execute(EvalState & state) {
-	if (condition->eval(state) == 1) program.gotoLine(linen);
+    program.gotoLine(linen);
 }
 
 void Goto::execute(EvalState & state) {
