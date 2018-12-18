@@ -245,7 +245,6 @@ void processLine(string line, Program & program, EvalState & state) {
 				}
 				if (exp->toString() == "PRINT") {
 					auto exp2 = readE(scanner);
-					if (checkRepet(exp2->toString())) error("SYNTAX ERROR");
 					if (scanner.hasMoreTokens()) {
 						error("SYNTAX ERROR");
 					}
@@ -334,7 +333,6 @@ void processLine(string line, Program & program, EvalState & state) {
 		 }
 		 if (exp->toString() == "PRINT") {
 			 auto exp2 = readE(scanner);
-			 if (checkRepet(exp2->toString())) error("SYNTAX ERROR");
 			 if (scanner.hasMoreTokens()) {
 				 error("SYNTAX ERROR");
 			 }
