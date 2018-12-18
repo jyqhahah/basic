@@ -299,7 +299,6 @@ void processLine(string line, Program & program, EvalState & state) {
 		 if (exp->toString() == "GOTO") {
 			 int linen;
 			 auto exp2 = readE(scanner);
-			 if (checkRepet(exp2->toString())) error("SYNTAX ERROR");
 			 if (scanner.hasMoreTokens()) error("SYNTEX ERROR");
 			 linen = exp2->eval(state);
              auto sentence = new Goto(line,program, linen);
