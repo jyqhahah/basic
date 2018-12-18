@@ -67,7 +67,7 @@ bool If::trueIf( EvalState & state) {
 }
 
 void If::execute(EvalState & state) {
-    program.gotoLine(linen);
+    if(condition->eval(state) == 1) program.gotoLine(linen);
 }
 
 void Goto::execute(EvalState & state) {

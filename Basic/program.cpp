@@ -103,8 +103,9 @@ void Program::RunProgram(EvalState &state) {
 			else error("LINE NUMBER ERROR");
 		}
 	}*/
-	for (int i = 0;now != -1; i++) {
+	for (int i = 0; now != -1 ; i++) {
 		it = Stmt.find(now);
+		if (it != Stmt.end()){
 		if (it->second->getType() == GOTO) { it->second->execute(state); it = Stmt.find(now); if (it == Stmt.end()) error("LINE NUMBER ERROR"); }
 		if (it->second->getType() == IF) { 
 			auto it1 = (If*)(it->second); 
@@ -125,6 +126,8 @@ void Program::RunProgram(EvalState &state) {
 			if (it->second->getType() == REM) continue;
 			else it->second->execute(state);
 		}
+		}
+		else return;
 	}
 }
 
