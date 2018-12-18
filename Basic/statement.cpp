@@ -47,6 +47,12 @@ void Input::execute(EvalState & state) {
 			cout << " ? ";
 			string str;
 			getline(cin, str);
+			TokenScanner scanner;
+			scanner.setInput(str);
+			Expression *EXP = readE(scanner);
+			if (EXP->getType() != CONSTANT) {
+				cout << "INVALID NUMBER" << endl; error("INVALID NUMBER");
+			}
                 int val = stringToInteger(str);
 				state.setValue(var, val);
 		}
