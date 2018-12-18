@@ -221,12 +221,11 @@ void processLine(string line, Program & program, EvalState & state) {
                if (exp->toString() == "LET") {
 					string var; 
 					auto exp2 = readE(scanner);
-					if (checkRepet(exp2->toString())) error("SYNTAX ERROR");
 					if (scanner.hasMoreTokens()) error("SYNTAX ERROR");
 					auto lhs = ((CompoundExp*)exp2)->getLHS();
 					auto rhs = ((CompoundExp*)exp2)->getRHS();
 					auto op = ((CompoundExp*)exp2)->getOp();
-					if (op != "=") error("SYNTAX ERROR");
+					if (op != "=" || !checkRepet(lhs->toString())) error("SYNTAX ERROR");
 					var = lhs->toString();
 					Let sentence(line, program, var, rhs);
 					sentence.execute(state);
@@ -235,7 +234,7 @@ void processLine(string line, Program & program, EvalState & state) {
 			   if (exp->toString() == "INPUT") {
 				   auto exp2 = readE(scanner);
 				   string var = exp2->toString();
-				   if (checkRepet(exp2->toString())) error("SYNTAX ERROR");
+				   if (!checkRepet(exp2->toString())) error("SYNTAX ERROR");
 				   if (scanner.hasMoreTokens() ||exp2->getType()!=IDENTIFIER) {
 						error("SYNTAX ERROR");
 					}
@@ -288,12 +287,11 @@ void processLine(string line, Program & program, EvalState & state) {
 		 if (exp->toString() == "LET") {
 			 string var;
 			 auto exp2 = readE(scanner);
-			 if (checkRepet(exp2->toString())) error("SYNTAX ERROR");
 			 if (scanner.hasMoreTokens()) error("SYNTAX ERROR");
 			 auto lhs = ((CompoundExp*)exp2)->getLHS();
 			 auto rhs = ((CompoundExp*)exp2)->getRHS();
 			 auto op = ((CompoundExp*)exp2)->getOp();
-			 if (op != "=") error("SYNTAX ERROR");
+			 if (op != "=" || !checkRepet(lhs->toString())) error("SYNTAX ERROR");
 			 var = lhs->toString();
 			 auto sentence = new Let(line, program, var, rhs);
 			 program.setParsedStatement(linenumber, sentence);
@@ -323,7 +321,7 @@ void processLine(string line, Program & program, EvalState & state) {
 		 }
 		 if (exp->toString() == "INPUT") {
 			 auto exp2 = readE(scanner);
-			 if (checkRepet(exp2->toString())) error("SYNTAX ERROR");
+			 if (!checkRepet(exp2->toString())) error("SYNTAX ERROR");
 			 string var = exp2->toString();
 			 if (scanner.hasMoreTokens() || exp2->getType() != IDENTIFIER) {
 				 error("SYNTAX ERROR");
