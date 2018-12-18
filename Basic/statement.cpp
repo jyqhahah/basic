@@ -40,26 +40,46 @@ void Print::execute(EvalState & state) {
 }
 
 void Input::execute(EvalState & state) {
-	bool is_ok;
+	/*bool is_ok;
 	while (1) {
 		try {
 			is_ok =true;
 			cout << " ? ";
 			string str;
 			getline(cin, str);
-			TokenScanner scanner;
-			scanner.setInput(str);
-			Expression *EXP = readE(scanner);
-			if (EXP->getType() != CONSTANT) {
-				cout << "INVALID NUMBER" << endl; error("INVALID NUMBER");
-			}
                 int val = stringToInteger(str);
 				state.setValue(var, val);
 		}
 		catch (...) {
-			is_ok = false;
+			is_ok = false; cout << "INVALID NUMBER" << endl;
 		}
 		if (is_ok) {
+			break;
+		}
+	}*/
+	string str;
+	TokenScanner scanner;
+	scanner.ignoreWhitespace();
+	scanner.scanNumbers();
+	while (true)
+	{
+		cout << " ? ";
+		str.clear();
+		char ch = getchar();
+		while (ch != '\n') str.push_back(ch), ch = getchar();
+		bool check = true;
+		for (int i = 0; i < str.length(); ++i) {
+			if (i == 0 && str[i] == '-') continue;
+			if (!isdigit(str[i])) {
+				check = false;
+				cout << "INVALID NUMBER" << endl;
+				break;
+			}
+		}
+		if (check) {
+			int val;
+			val = stringToInteger(str);
+			state.setValue(var, val);
 			break;
 		}
 	}
