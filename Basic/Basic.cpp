@@ -342,6 +342,8 @@ void processLine(string line, Program & program, EvalState & state) {
 		 }
 		 if (exp->toString() == "END") {
 			 if (scanner.hasMoreTokens()) error("SYNTAX ERROR");
+			 auto sentence = new End();
+			 program.setParsedStatement(linenumber, sentence);
 		 }
 		 if (checkRepet2(exp->toString())) error("SYNTAX ERROR");
 	 }

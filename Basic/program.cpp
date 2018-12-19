@@ -110,11 +110,13 @@ void Program::RunProgram(EvalState &state) {
 		if (it->second->getType() == IF) { 
 			auto it1 = (If*)(it->second); 
 			if (it1->trueIf(state)) {
-				int now1 = now;
+				//int now1 = now;
 				it1->execute(state);
 				it = Stmt.find(now);
-				if (it == Stmt.end())        
-					now = getNextLineNumber(now1);
+				//auto it2 = --it;
+				if (it == Stmt.end())
+					error("LINE NUMBER ERROR");
+					//now = getNextLineNumber(now1);
 			}
 			else now = getNextLineNumber(now);
 		}
