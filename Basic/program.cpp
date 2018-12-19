@@ -103,7 +103,7 @@ void Program::RunProgram(EvalState &state) {
 			else error("LINE NUMBER ERROR");
 		}
 	}*/
-	for (int i = 0; now != -1 ; i++) {
+	for (int i = 0;; i++) {
 		it = Stmt.find(now);
 		if (it != Stmt.end()){
 		if (it->second->getType() == GOTO) { it->second->execute(state); it = Stmt.find(now); if (it == Stmt.end()) error("LINE NUMBER ERROR"); }
@@ -113,12 +113,12 @@ void Program::RunProgram(EvalState &state) {
 				int now1 = now;
 				it1->execute(state);
 				it = Stmt.find(now);
-				if (it == Stmt.end())
+				if (it == Stmt.end())        
 					now = getNextLineNumber(now1);
 			}
 			else now = getNextLineNumber(now);
 		}
-		if (it->second->getType() == END) return;
+		if (it->second->getType() == END) { break; }
 		if (it->second->getType() != GOTO &&
 			it->second->getType() != IF &&
 			it->second->getType() != END) {
@@ -127,7 +127,7 @@ void Program::RunProgram(EvalState &state) {
 			else it->second->execute(state);
 		}
 		}
-		else return;
+		else break;
 	}
 }
 
